@@ -1,0 +1,68 @@
+.photoCart {
+  max-width: 300px;
+  max-height: 400px;
+  position: relative;
+  box-shadow: none;
+  transition: all ease-in-out 0.3s;
+}
+
+.photoCart:hover {
+  box-shadow: 5px 5px rgba(0, 0, 0, .2);
+  transform: translate(-5px, -5px);
+
+}
+.linkPost {
+  position: absolute;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.photoCart img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.author {
+  text-decoration: none;
+  color:azure;
+  position: absolute;
+  left: 0;
+  background-color: rgba(0, 0, 0, .4);
+  border-radius: 5px;
+  padding: 2px;
+}
+.date {
+  grid-area: data;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 130%;
+  color:azure;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .4);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.like {
+  position: absolute;
+  bottom: 0;
+  left: 3px;
+  max-width: 30px;
+  color: azure;
+  background-color: transparent;
+}
+
+.like span {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+}
+

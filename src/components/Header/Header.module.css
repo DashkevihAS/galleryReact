@@ -1,0 +1,15 @@
+.header {
+    padding: 15px 0;
+    background-color: tomato;
+}
+.wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+    .header {
+    padding: 30px;
+    }
+}
