@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 
-export const useToken = (code) => {
-  const [token, setToken] = useState([]);
+
+export const useAuth = (token) => {
+  const [authData, setAuthData] = useState([]);
 
   useEffect(() => {
-    fetch(`https://unsplash.com/oauth/token?client_id=RsAgvX7aIapnoALkfM5cAHXoNWhn1ujD6V-soXcFTQE&client_secret=131x1DILF_Lpoqf-z5xU9PTsYtU6f3Z1wCcul7scOTM&redirect_uri=http%3A%2F%2F192.168.100.4%3A3000%2F&code=${code}&grant_type=authorization_code`, {
-      method: 'POST'
+    fetch('https://api.unsplash.com/me', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('bearer')}`
+      },
     })
       .then(res => res.json())
-      .then(data => setToken(data));
-    return [token];
+      .then(data => setAuthData(data));
   }, []);
+  return [authData];
 };
