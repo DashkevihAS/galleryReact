@@ -4,9 +4,10 @@ import { usePhotos } from '../../../hooks/usePhotos';
 
 export const List = () => {
   const [photos] = usePhotos();
+
   return (
     <ul className={style.wrapper}>
-      {photos && photos.map(photo => (
+      {photos.map(photo => (
         <PhotoCart key={photo.id} photo={photo}/>
       ))}
     </ul>

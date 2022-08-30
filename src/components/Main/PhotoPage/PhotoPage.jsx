@@ -1,24 +1,12 @@
-import { useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useLike } from '../../../hooks/useLike';
 import { usePhoto } from '../../../hooks/usePhoto';
+import { Like } from './Like/Like';
 import style from './Photo.module.css';
 
 export const Photo = () => {
   const { id } = useParams();
   const [photo] = usePhoto(id);
-  const [isLiked, setIsLiked] = useState(false);
-
-  const [likeData] = useLike(id);
-  console.log(likeData);
-  console.log('photo', photo);
-  const handleLiked = () => {
-    setIsLiked(!isLiked);
-  };
-  const handleUnLiked = () => {
-    setIsLiked(!isLiked);
-  };
 
   return (
     <div className={style.photoPage}>
@@ -39,19 +27,7 @@ export const Photo = () => {
             >
               {photo.created_at.substring(0, 10)}
             </time>
-            <div className={style.photoLike}>
-              {isLiked ?
-                <button
-                  onClick={handleUnLiked}
-                  className={style.redHeart}
-                  href="">&#9829;</button> :
-                <button
-                  onClick={handleLiked}
-                  className={style.emptyHeart}
-                  href="">&#9829;</button>
-              }
-              <span>{photo.likes}</span>
-            </div>
+            <Like id={id} photo={photo}/>
           </div>
           <Link className={style.back} to='/'>
             На главную

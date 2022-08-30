@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   API_URL_TOKEN,
   REDIRECT_URI,
@@ -19,38 +19,34 @@ export const getTokenUrl = (code) => {
   return `${API_URL_TOKEN}${url.searchParams.toString()}`;
 };
 
-export const setToken = (token, code) => {
+export const setToken = (token) => {
   localStorage.setItem('bearer', token);
-  localStorage.setItem('authCode', code);
 };
 
 export const getToken = () => {
   const code = new URLSearchParams(location.search)
     .get('code');
-  const [tokenData, setTokenData] = useState({});
-
   const tokenUrl = getTokenUrl(code);
 
-  if (!code) return;
+  const [tokenData, setTokenData] = useState({});
 
-  if (code !== localStorage.getItem('authCode')) {
-    localStorage.removeItem('bearer');
-  }
+  console.log('code', code);
+  if (!code) return '';
 
   if (localStorage.getItem('bearer')) {
     return (localStorage.getItem('bearer'));
   }
 
-  useEffect(() => {
-    fetch(tokenUrl, {
-      method: 'POST'
-    })
-      .then(res => res.json())
-      .then(data => setTokenData(data));
-  }, []);
+  fetch(tokenUrl, {
+    method: 'POST'
+  })
+    .then(res => res.json())
+    .then(data => setTokenData(data));
+
   const token = tokenData.access_token;
 
-  token && setToken(token, code);
+  token && setToken(token);
 
   return token;
 };
+

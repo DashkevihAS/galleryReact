@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { urlAuth } from '../../../api/auth';
+import { getTokenUrl, setToken } from '../../../api/token';
 import { useAuth } from '../../../hooks/useAuth';
 import style from './Auth.module.css';
 
 export const Auth = () => {
-  console.log(localStorage.getItem('bearer'));
+  const [tokenData, setTokenData] = useState({});
+  const code = new URLSearchParams(location.search)
+    .get('code');
+  const tokenUrl = getTokenUrl(code);
+
+  useEffect(() => {
+    code && !localStorage.getItem('bearer') &&
+    fetch(tokenUrl, {
+      method: 'POST'
+    })
+      .then(res => res.json())
+      .then(data => setTokenData(data));
+  }, []);
+
+  const token = tokenData.access_token;
+  token && setToken(token);
+
   const [authData] = useAuth();
-  console.log(authData);
   return (
     <div className={style.authWrapper}>
-      {authData.username ?
+      {!Array.isArray(authData) && authData.username ?
         <div className={style.auth}>
           <img src={authData.profile_image.medium} alt="" />
           <span>{authData.username}</span>

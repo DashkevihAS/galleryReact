@@ -1,17 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authRequestAsync } from '../store/auth/authAction';
 
-
-export const useAuth = (token) => {
-  const [authData, setAuthData] = useState([]);
+export const useAuth = () => {
+  const authData = useSelector(state => state.auth.data);
+  const token = localStorage.getItem('bearer');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://api.unsplash.com/me', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('bearer')}`
-      },
-    })
-      .then(res => res.json())
-      .then(data => setAuthData(data));
-  }, []);
+    dispatch(authRequestAsync());
+  }, [token]);
   return [authData];
 };

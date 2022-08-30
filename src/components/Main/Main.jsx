@@ -4,7 +4,7 @@ import { Layout } from '../Layout/Layout';
 import { List } from './List/List';
 import style from './Main.module.css';
 import { Error } from '../Main/Error/Error';
-import { Photo } from '../Main/Photo/Photo';
+import { Photo } from './PhotoPage/PhotoPage';
 
 
 export const Main = () => (
