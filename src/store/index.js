@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import photosReducer from '../store/photos/photosSlice';
+import photoPageReducer from '../store/photoPage/photoPageSlice';
 import { tokenReducer } from '../store/token/tokenReducer';
 import { authReducer } from './auth/authReducer';
 // import { tokenMiddleware } from './token/tokenActions';
@@ -9,6 +10,7 @@ export const store = configureStore({
     auth: authReducer,
     token: tokenReducer,
     photos: photosReducer,
+    photo: photoPageReducer,
 
   },
   // middleware: (getDefaultMiddleware) =>

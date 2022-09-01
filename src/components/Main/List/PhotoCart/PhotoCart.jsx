@@ -9,7 +9,7 @@ export const PhotoCart = ({ photo }) => (
     <img src={photo.urls.thumb} alt={photo.alt_description} />
     <a
       className={style.author}
-      href={photo.user.links.self}>{photo.user.name}
+      href={photo.user.links.html}>{photo.user.name}
     </a>
     <time
       className={style.date}

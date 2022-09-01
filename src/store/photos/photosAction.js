@@ -3,14 +3,15 @@ import { ACCESS_KEY } from '../../api/const';
 import { photosSlice } from './photosSlice';
 
 export const photosRequestAsync = () => (dispatch, getState) => {
-  // const token = getState().token.token;
   const token = localStorage.getItem('bearer');
+  const status = getState().photos.status;
+  const page = getState().photos.page;
 
-  console.log('token', token);
-  console.log('ACCESS_KEY', ACCESS_KEY);
+  if (status === 'loading') return;
   dispatch(photosSlice.actions.photosRequest());
+
   if (!token) {
-    axios('https://api.unsplash.com/photos?per_page=30&order_by=popular', {
+    axios(`https://api.unsplash.com/photos?page=${page}&per_page=${page < 3 ? 15 : 30}&order_by=popular`, {
       headers: {
         Authorization: `Client-ID ${ACCESS_KEY}`
       }
@@ -19,14 +20,15 @@ export const photosRequestAsync = () => (dispatch, getState) => {
         dispatch(photosSlice.actions.photosRequestSuccess(data));
       })
       .catch(err => dispatch(photosSlice.actions.photosRequestError(err)));
-  }
-  axios('https://api.unsplash.com/photos?per_page=30&order_by=popular', {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(({ data }) => {
-      dispatch(photosSlice.actions.photosRequestSuccess(data));
+  } else {
+    axios(`https://api.unsplash.com/photos?page=${page}&per_page=${page < 3 ? 15 : 30}&order_by=popular`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
-    .catch(err => dispatch(photosSlice.actions.photosRequestError(err)));
+      .then(({ data }) => {
+        dispatch(photosSlice.actions.photosRequestSuccess(data));
+      })
+      .catch(err => dispatch(photosSlice.actions.photosRequestError(err)));
+  }
 };

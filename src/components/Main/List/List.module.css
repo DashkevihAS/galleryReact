@@ -6,3 +6,7 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+
+.end {
+    flex-basis: 100%;
+}

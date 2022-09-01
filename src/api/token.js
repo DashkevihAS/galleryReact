@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   API_URL_TOKEN,
   REDIRECT_URI,
@@ -21,32 +20,5 @@ export const getTokenUrl = (code) => {
 
 export const setToken = (token) => {
   localStorage.setItem('bearer', token);
-};
-
-export const getToken = () => {
-  const code = new URLSearchParams(location.search)
-    .get('code');
-  const tokenUrl = getTokenUrl(code);
-
-  const [tokenData, setTokenData] = useState({});
-
-  console.log('code', code);
-  if (!code) return '';
-
-  if (localStorage.getItem('bearer')) {
-    return (localStorage.getItem('bearer'));
-  }
-
-  fetch(tokenUrl, {
-    method: 'POST'
-  })
-    .then(res => res.json())
-    .then(data => setTokenData(data));
-
-  const token = tokenData.access_token;
-
-  token && setToken(token);
-
-  return token;
 };
 

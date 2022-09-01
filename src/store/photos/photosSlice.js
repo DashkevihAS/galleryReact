@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  photos: {},
+  photos: [],
   status: '',
   error: {},
+  page: 1,
 };
 
 export const photosSlice = createSlice({
@@ -15,13 +16,17 @@ export const photosSlice = createSlice({
       state.status = 'loading';
     },
     photosRequestSuccess: (state, action) => {
-      state.photos = action.payload;
+      state.photos = [...state.photos, ...action.payload];
       state.error = '';
       state.status = 'loaded';
+      state.page += 1;
     },
     photosRequestError: (state, action) => {
       state.error = action.payload;
       state.status = 'error';
+    },
+    photosUpdatePage: (state, action) => {
+      state.page = 1;
     },
   },
 });

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { urlAuth } from '../../../api/auth';
 import { getTokenUrl, setToken } from '../../../api/token';
 import { useAuth } from '../../../hooks/useAuth';
 import style from './Auth.module.css';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 export const Auth = () => {
   const [tokenData, setTokenData] = useState({});
   const code = new URLSearchParams(location.search)
     .get('code');
   const tokenUrl = getTokenUrl(code);
+  const loading = useSelector(state => state.auth.loading);
 
   useEffect(() => {
     code && !localStorage.getItem('bearer') &&
@@ -20,12 +23,16 @@ export const Auth = () => {
   }, []);
 
   const token = tokenData.access_token;
-  token && setToken(token);
+  if (token) {
+    setToken(token);
+  }
 
   const [authData] = useAuth();
   return (
     <div className={style.authWrapper}>
-      {!Array.isArray(authData) && authData.username ?
+      {loading ?
+        <Spinner/> :
+        !Array.isArray(authData) && authData.username ?
         <div className={style.auth}>
           <img src={authData.profile_image.medium} alt="" />
           <span>{authData.username}</span>
