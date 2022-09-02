@@ -1,20 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import photosReducer from '../store/photos/photosSlice';
 import photoPageReducer from '../store/photoPage/photoPageSlice';
-import { tokenReducer } from '../store/token/tokenReducer';
 import { authReducer } from './auth/authReducer';
-// import { tokenMiddleware } from './token/tokenActions';
+import likeReducer from '../store/like/likeSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    token: tokenReducer,
     photos: photosReducer,
     photo: photoPageReducer,
+    like: likeReducer,
 
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(tokenMiddleware)
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,
   }),

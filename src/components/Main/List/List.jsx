@@ -3,16 +3,19 @@ import { PhotoCart } from './PhotoCart/PhotoCart';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { photosRequestAsync } from '../../../store/photos/photosAction';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 export const List = () => {
   const endList = useRef(null);
   const photosData = useSelector(state => state.photos.photos);
-  const page = useSelector(state => state.photos.page);
+  const status = useSelector(state => state.photos.status);
 
-  console.log('page', page);
   const dispatch = useDispatch();
 
-  console.log(photosData);
+  useEffect(() => {
+    dispatch(photosRequestAsync());
+  }, []);
+
   useEffect(() => {
     if (!photosData) return;
     const observer = new IntersectionObserver((entries) => {
@@ -34,9 +37,11 @@ export const List = () => {
 
   return (
     <ul className={style.wrapper}>
-      {(photosData.length > 0) && photosData.map(photo => (
-        <PhotoCart key={photo.id} photo={photo}/>
-      ))
+      {status === 'loading' ?
+        <Spinner /> :
+        photosData && photosData.map(photo => (
+          <PhotoCart key={photo.id} photo={photo}/>
+        ))
       }
       <li className={style.end} ref={endList}/>
     </ul>

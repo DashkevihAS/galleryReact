@@ -5,19 +5,23 @@ import { Link } from 'react-router-dom';
 import { photoRequestAsync } from '../../../store/photoPage/photoPageAction';
 import { Like } from './Like/Like';
 import style from './Photo.module.css';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 export const Photo = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const photoData = useSelector(state => state.photo.photo);
-
+  const status = useSelector(state => state.photo.status);
+  console.log(status);
   useEffect(() => {
     dispatch(photoRequestAsync(id));
   }, []);
 
   return (
     <div className={style.photoPage}>
-      {!Array.isArray(photoData) &&
+      {status === 'loading' ?
+        <Spinner /> :
+        !Array.isArray(photoData) &&
         <>
           <img
             className={style.image}

@@ -5,6 +5,7 @@ const initialState = {
   status: '',
   error: {},
   page: 1,
+  like: '',
 };
 
 export const photosSlice = createSlice({
@@ -26,6 +27,11 @@ export const photosSlice = createSlice({
       state.status = 'error';
     },
     photosUpdatePage: (state, action) => {
+      state.page = 1;
+    },
+    likeUpdate: (state) => {
+      state.like = !state.like;
+      state.photos = [];
       state.page = 1;
     },
   },

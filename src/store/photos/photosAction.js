@@ -21,7 +21,7 @@ export const photosRequestAsync = () => (dispatch, getState) => {
       })
       .catch(err => dispatch(photosSlice.actions.photosRequestError(err)));
   } else {
-    axios(`https://api.unsplash.com/photos?page=${page}&per_page=${page < 3 ? 15 : 30}&order_by=popular`, {
+    axios(`https://api.unsplash.com/photos?page=${page}&per_page=${page < 3 ? 15 : 30}&order_by=latest`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import style from './Like.module.css';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { photosSlice } from '../../../../store/photos/photosSlice';
 
 
 export const Like = ({ photo }) => {
   const id = photo.id;
   const [likeData, setLikeData] = useState([]);
   const token = localStorage.getItem('bearer');
+  const dispatch = useDispatch();
 
   const newPhoto = {
     ...photo, ...likeData.photo
@@ -22,7 +25,10 @@ export const Like = ({ photo }) => {
       },
     })
       .then(res => res.json())
-      .then(data => setLikeData(data)) :
+      .then(data => {
+        setLikeData(data);
+        dispatch(photosSlice.actions.likeUpdate());
+      }) :
 
     fetch(`https://api.unsplash.com/photos/${id}/like`, {
       method: 'DELETE',
@@ -31,9 +37,12 @@ export const Like = ({ photo }) => {
       },
     })
       .then(res => res.json())
-      .then(data => setLikeData(data));
+      .then(data => {
+        setLikeData(data);
+        dispatch(photosSlice.actions.likeUpdate());
+      });
   };
-
+  console.log('likeData', likeData);
   return (
     <div className={style.photoLike}>
       {!token ?
