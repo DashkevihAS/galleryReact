@@ -10,35 +10,35 @@ import Spinner from '../../../UI/Spinner/Spinner';
 export const Photo = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const photoData = useSelector(state => state.photo.photo);
+  const photo = useSelector(state => state.photo.photo);
   const status = useSelector(state => state.photo.status);
-  console.log(status);
+
   useEffect(() => {
     dispatch(photoRequestAsync(id));
-  }, []);
+  }, [id]);
 
   return (
     <div className={style.photoPage}>
       {status === 'loading' ?
         <Spinner /> :
-        !Array.isArray(photoData) &&
+        !Array.isArray(photo) &&
         <>
           <img
             className={style.image}
-            src={photoData.urls.full} alt={photoData.alt_description}
+            src={photo.urls.full} alt={photo.alt_description}
           />
           <div className={style.photoInfo}>
             <a
               className={style.author}
-              href={photoData.user.links.html}>{photoData.user.name}
+              href={photo.user.links.html}>{photo.user.name}
             </a>
             <time
               className={style.date}
-              dateTime={photoData.created_at}
+              dateTime={photo.created_at}
             >
-              {photoData.created_at.substring(0, 10)}
+              {photo.created_at.substring(0, 10)}
             </time>
-            <Like id={id} photo={photoData}/>
+            <Like id={id} photo={photo}/>
           </div>
           <Link className={style.back} to='/'>
             На главную

@@ -1,65 +1,41 @@
-import React, { useState } from 'react';
 import style from './Like.module.css';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { photosSlice } from '../../../../store/photos/photosSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { likeRequestAsync } from '../../../../store/photoPage/photoPageAction';
+import { photosUpdate } from '../../../../store/photos/photosSlice';
 
 
-export const Like = ({ photo }) => {
-  const id = photo.id;
-  const [likeData, setLikeData] = useState([]);
+export const Like = () => {
+  const { id } = useParams();
+  const photo = useSelector(state => state.photo.photo);
   const token = localStorage.getItem('bearer');
   const dispatch = useDispatch();
 
-  const newPhoto = {
-    ...photo, ...likeData.photo
-  };
-  const isLiked = newPhoto.liked_by_user;
-
-  const handleLike = () => {
-    !isLiked ?
-    fetch(`https://api.unsplash.com/photos/${id}/like`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setLikeData(data);
-        dispatch(photosSlice.actions.likeUpdate());
-      }) :
-
-    fetch(`https://api.unsplash.com/photos/${id}/like`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setLikeData(data);
-        dispatch(photosSlice.actions.likeUpdate());
-      });
-  };
-  console.log('likeData', likeData);
   return (
     <div className={style.photoLike}>
       {!token ?
         <button
           className={style.hearthWithoutAuth}
           href="">&#9829;</button> :
-      newPhoto.liked_by_user ?
+      photo.liked_by_user ?
         <button
-          onClick={handleLike}
+          onClick={() => {
+            dispatch(likeRequestAsync(id));
+            dispatch(photosUpdate());
+          }}
           className={style.redHeart}
-          href="">&#9829;</button> :
+          href="">&#9829;
+        </button> :
         <button
-          onClick={handleLike}
+          onClick={() => {
+            dispatch(likeRequestAsync(id));
+            dispatch(photosUpdate());
+          }}
           className={style.emptyHeart}
           href="">&#9829;</button>
       }
-      <span>{newPhoto.likes}</span>
+      <span>{photo.likes}</span>
     </div>
   );
 };

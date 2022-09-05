@@ -9,15 +9,9 @@ export const List = () => {
   const endList = useRef(null);
   const photosData = useSelector(state => state.photos.photos);
   const status = useSelector(state => state.photos.status);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(photosRequestAsync());
-  }, []);
-
-  useEffect(() => {
-    if (!photosData) return;
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         dispatch(photosRequestAsync());
