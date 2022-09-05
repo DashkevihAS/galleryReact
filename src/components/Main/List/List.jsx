@@ -19,7 +19,7 @@ export const List = () => {
   }, []);
 
   useEffect(() => {
-    if (!photosData.lenght) return;
+    if (!photosData.length) return;
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         dispatch(photosScrollRequestAsync());
