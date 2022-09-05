@@ -18,8 +18,6 @@ export const List = () => {
     dispatch(photosRequestAsync());
   }, []);
 
-
-  console.log(photosData);
   useEffect(() => {
     if (!photosData) return;
     const observer = new IntersectionObserver((entries) => {
