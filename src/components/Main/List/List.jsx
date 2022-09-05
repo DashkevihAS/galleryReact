@@ -41,7 +41,7 @@ export const List = () => {
     <ul className={style.wrapper}>
       {status === 'loading' ?
         <Spinner /> :
-        photosData.lenght && photosData.map(photo => (
+        photosData.length && photosData.map(photo => (
           <PhotoCart key={photo.id} photo={photo}/>
         ))
       }
