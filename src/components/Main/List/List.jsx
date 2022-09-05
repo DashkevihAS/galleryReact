@@ -18,8 +18,10 @@ export const List = () => {
     dispatch(photosRequestAsync());
   }, []);
 
+
+  console.log(photosData);
   useEffect(() => {
-    if (!photosData.length) return;
+    if (!photosData) return;
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         dispatch(photosScrollRequestAsync());
@@ -41,7 +43,7 @@ export const List = () => {
     <ul className={style.wrapper}>
       {status === 'loading' ?
         <Spinner /> :
-        photosData.length && photosData.map(photo => (
+        photosData && photosData.map(photo => (
           <PhotoCart key={photo.id} photo={photo}/>
         ))
       }
