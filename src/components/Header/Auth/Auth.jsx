@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { urlAuth } from '../../../api/auth';
-import { getTokenUrl, setToken } from '../../../api/token';
+import { delToken, getTokenUrl, setToken } from '../../../api/token';
 import { useAuth } from '../../../hooks/useAuth';
 import style from './Auth.module.css';
 import Spinner from '../../../UI/Spinner/Spinner';
+import { ReactComponent as LogOut } from '../../../UI/log_out_icon_128821.svg';
+import { useNavigate } from 'react-router';
 
 export const Auth = () => {
   const [tokenData, setTokenData] = useState({});
@@ -12,6 +14,7 @@ export const Auth = () => {
     .get('code');
   const tokenUrl = getTokenUrl(code);
   const loading = useSelector(state => state.auth.loading);
+  const navigate = useNavigate();
 
   useEffect(() => {
     code && !localStorage.getItem('bearer') &&
@@ -27,15 +30,31 @@ export const Auth = () => {
     setToken(token);
   }
 
-  const [authData] = useAuth();
+  const [authData, clearAuth] = useAuth();
+
+  const logOut = () => {
+    setTokenData({});
+    delToken();
+    clearAuth();
+    navigate('/photos');
+  };
+
   return (
     <div className={style.authWrapper}>
       {loading ?
         <Spinner/> :
         !Array.isArray(authData) && authData.username ?
         <div className={style.auth}>
-          <img src={authData.profile_image.medium} alt="" />
-          <span>{authData.username}</span>
+          <div className={style.profileImg}>
+            <img
+              className={style.img}
+              src={authData.profile_image.medium}
+              alt={authData.username} />
+          </div>
+          <div className={style.logOut}>
+            <span>{authData.username}</span>
+            <LogOut onClick={logOut}/>
+          </div>
         </div> :
         <a className={style.enter} href={urlAuth}>
           <svg

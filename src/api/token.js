@@ -21,4 +21,7 @@ export const getTokenUrl = (code) => {
 export const setToken = (token) => {
   localStorage.setItem('bearer', token);
 };
+export const delToken = () => {
+  setToken('');
+};
 

@@ -35,8 +35,8 @@ export const photoRequestAsync = (id) => (dispatch) => {
 export const likeRequestAsync = (id) => (dispatch, getState) => {
   const isLiked = getState().photo.photo.liked_by_user;
   const token = localStorage.getItem('bearer');
-  console.log('isLiked', isLiked);
   dispatch(photoPageSlice.actions.likeRequest());
+
   if (!isLiked) {
     fetch(`https://api.unsplash.com/photos/${id}/like`, {
       method: 'POST',

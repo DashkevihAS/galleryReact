@@ -27,17 +27,14 @@ export const photosSlice = createSlice({
     },
     photosScrollRequest: (state) => {
       state.error = '';
-      state.status = 'loading';
     },
     photosScrollRequestSuccess: (state, action) => {
       state.photos = [...state.photos, ...action.payload];
       state.error = '';
-      state.status = 'loaded';
       state.page += 1;
     },
     photosScrollRequestError: (state, action) => {
       state.error = action.payload;
-      state.status = 'error';
     },
     photosUpdate: (state) => {
       state.photos = [];

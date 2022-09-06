@@ -6,11 +6,13 @@ import {
   photosRequestAsync,
   photosScrollRequestAsync
 } from '../../../store/photos/photosAction';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 export const List = () => {
   const endList = useRef(null);
   const photosData = useSelector(state => state.photos.photos);
   const dispatch = useDispatch();
+  const status = useSelector(state => state.photos.status);
 
   useEffect(() => {
     dispatch(photosRequestAsync());
@@ -37,6 +39,7 @@ export const List = () => {
 
   return (
     <ul className={style.wrapper}>
+      {status === 'loading' && <Spinner />}
       {photosData && photosData.map(photo => (
         <PhotoCart key={photo.id} photo={photo}/>
       ))

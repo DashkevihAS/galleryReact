@@ -1,6 +1,5 @@
 .photoCart {
-  max-width: 300px;
-  max-height: 400px;
+  width: 200px;
   position: relative;
   box-shadow: none;
   transition: all ease-in-out 0.3s;
