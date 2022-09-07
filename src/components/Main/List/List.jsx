@@ -13,15 +13,18 @@ export const List = () => {
   const photosData = useSelector(state => state.photos.photos);
   const dispatch = useDispatch();
   const status = useSelector(state => state.photos.status);
+  const token = useSelector(state => state.photos.token);
+  const code = new URLSearchParams(location.search)
+    .get('code');
 
   useEffect(() => {
-    dispatch(photosRequestAsync());
-  }, []);
+    !code && dispatch(photosRequestAsync(token));
+  }, [token]);
 
   useEffect(() => {
     if (!photosData) return;
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting && !code) {
         dispatch(photosScrollRequestAsync());
       }
     }, {

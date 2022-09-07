@@ -40,7 +40,7 @@ export const Photo = () => {
             </time>
             <Like id={id} photo={photo}/>
           </div>
-          <Link className={style.back} to='/photos'>
+          <Link className={style.back} to='/'>
             На главную
           </Link>
         </>

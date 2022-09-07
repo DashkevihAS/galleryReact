@@ -11,6 +11,7 @@ export const Like = () => {
   const photo = useSelector(state => state.photo.photo);
   const token = localStorage.getItem('bearer');
   const dispatch = useDispatch();
+  const like = useSelector(state => state.photo.like);
 
   return (
     <div className={style.photoLike}>
@@ -35,7 +36,7 @@ export const Like = () => {
           className={style.emptyHeart}
           href="">&#9829;</button>
       }
-      <span>{photo.likes}</span>
+      <span>{token ? photo.likes : like}</span>
     </div>
   );
 };

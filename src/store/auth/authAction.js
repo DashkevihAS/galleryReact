@@ -23,9 +23,7 @@ export const authLogout = () => ({
   type: AUTH_LOGOUT,
 });
 
-export const authRequestAsync = () => (dispatch, getState) => {
-  const token = localStorage.getItem('bearer');
-
+export const authRequestAsync = (token) => (dispatch) => {
   if (!token) return;
   dispatch(authRequest());
   axios(`https://api.unsplash.com/me`, {

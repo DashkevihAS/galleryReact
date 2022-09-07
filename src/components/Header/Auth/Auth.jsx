@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { urlAuth } from '../../../api/auth';
 import { delToken, getTokenUrl, setToken } from '../../../api/token';
-import { useAuth } from '../../../hooks/useAuth';
 import style from './Auth.module.css';
 import Spinner from '../../../UI/Spinner/Spinner';
 import { ReactComponent as LogOut } from '../../../UI/log_out_icon_128821.svg';
 import { useNavigate } from 'react-router';
+import { photosUpdate, tokenUpdate } from '../../../store/photos/photosSlice';
+import { authLogout, authRequestAsync } from '../../../store/auth/authAction';
+import { photosRequestAsync } from '../../../store/photos/photosAction';
 
 export const Auth = () => {
-  const [tokenData, setTokenData] = useState({});
+  const authData = useSelector(state => state.auth.data);
   const code = new URLSearchParams(location.search)
     .get('code');
   const tokenUrl = getTokenUrl(code);
   const loading = useSelector(state => state.auth.loading);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     code && !localStorage.getItem('bearer') &&
@@ -22,21 +25,22 @@ export const Auth = () => {
       method: 'POST'
     })
       .then(res => res.json())
-      .then(data => setTokenData(data));
+      .then(data => {
+        setToken(data.access_token);
+        dispatch(tokenUpdate(data.access_token));
+        dispatch(photosRequestAsync(data.access_token));
+        dispatch(authRequestAsync(data.access_token));
+        navigate('/');
+      });
   }, []);
 
-  const token = tokenData.access_token;
-  if (token) {
-    setToken(token);
-  }
-
-  const [authData, clearAuth] = useAuth();
-
   const logOut = () => {
-    setTokenData({});
     delToken();
-    clearAuth();
-    navigate('/photos');
+    dispatch(photosUpdate());
+    dispatch(tokenUpdate(''));
+    dispatch(authLogout());
+    delToken();
+    navigate('/');
   };
 
   return (

@@ -4,9 +4,9 @@ const initialState = {
   photo: [],
   status: '',
   error: {},
-  likeData: [],
   statusLike: '',
   errorLike: {},
+  like: '',
 };
 
 export const photoPageSlice = createSlice({
@@ -16,7 +16,7 @@ export const photoPageSlice = createSlice({
     photoPageRequest: (state) => {
       state.error = '';
       state.status = 'loading';
-      state.likeData = [];
+      state.photo = [];
     },
     photoPageRequestSuccess: (state, action) => {
       state.photo = action.payload;
@@ -40,7 +40,12 @@ export const photoPageSlice = createSlice({
       state.errorLike = action.payload;
       state.statusLike = 'error';
     },
+    getLikeCount: (state, action) => {
+      state.like = action.payload;
+    },
   },
 });
+
+export const { getLikeCount } = photoPageSlice.actions;
 
 export default photoPageSlice.reducer;

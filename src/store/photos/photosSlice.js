@@ -5,6 +5,7 @@ const initialState = {
   status: '',
   error: {},
   page: 1,
+  token: '',
 };
 
 export const photosSlice = createSlice({
@@ -14,6 +15,8 @@ export const photosSlice = createSlice({
     photosRequest: (state) => {
       state.error = '';
       state.status = 'loading';
+      state.page = 1;
+      state.photos = [];
     },
     photosRequestSuccess: (state, action) => {
       state.photos = action.payload;
@@ -40,9 +43,12 @@ export const photosSlice = createSlice({
       state.photos = [];
       state.page = 1;
     },
+    tokenUpdate: (state, action) => {
+      state.token = action.payload;
+    },
   },
 });
 
-export const { photosUpdate } = photosSlice.actions;
+export const { photosUpdate, tokenUpdate } = photosSlice.actions;
 
 export default photosSlice.reducer;

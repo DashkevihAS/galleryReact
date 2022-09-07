@@ -12,8 +12,7 @@ export const Main = () => (
     <Layout>
       <Routes>
         <Route path='/' element={<List/>} />
-        <Route path='/photos' element={<List/>}/>
-        <Route path='photos/:id' element={<Photo/>} />
+        <Route path='/:id' element={<Photo/>} />
         <Route path='*' element={<Error/>} />
       </Routes>
     </Layout>
