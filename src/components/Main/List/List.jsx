@@ -43,9 +43,13 @@ export const List = () => {
   return (
     <ul className={style.wrapper}>
       {status === 'loading' && <Spinner />}
-      {photosData && photosData.map(photo => (
-        <PhotoCart key={photo.id} photo={photo}/>
-      ))
+      {photosData && photosData
+        .reduce((arr, el) => (
+          (arr.find(({ id }) => el.id === id) || arr.push(el)), arr
+        ), [])
+        .map(photo => (
+          <PhotoCart key={photo.id} photo={photo}/>
+        ))
       }
       <li className={style.end} ref={endList}/>
     </ul>
