@@ -7,6 +7,7 @@ const initialState = {
   error: {},
   page: 1,
   token: '',
+  search: '',
 };
 
 export const photosSlice = createSlice({
@@ -22,6 +23,10 @@ export const photosSlice = createSlice({
     },
     tokenUpdate: (state, action) => {
       state.token = action.payload;
+    },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+      state.page = 1;
     },
   },
   extraReducers: (builder) => {
@@ -59,6 +64,7 @@ export const photosSlice = createSlice({
   },
 });
 
-export const { photosUpdate, tokenUpdate, setStatus } = photosSlice.actions;
+export const { photosUpdate, tokenUpdate, setStatus, setSearch } =
+  photosSlice.actions;
 
 export default photosSlice.reducer;

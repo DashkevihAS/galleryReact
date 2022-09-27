@@ -13,8 +13,10 @@ export const List = () => {
   const photosData = useSelector((state) => state.photos.photos);
   const dispatch = useDispatch();
   const status = useSelector((state) => state.photos.status);
-  const token = useSelector((state) => state.photos.token);
+  const token = localStorage.getItem('bearer');
   const code = new URLSearchParams(location.search).get('code');
+  const isMounted = useRef(false);
+  isMounted.current = false;
 
   useEffect(() => {
     !code && dispatch(fetchPhotos(token));
@@ -24,9 +26,10 @@ export const List = () => {
     if (!photosData) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !code) {
+        if (entries[0].isIntersecting && !code && isMounted.current) {
           dispatch(fetchPhotosByScroll());
         }
+        isMounted.current = true;
       },
       {
         rootMargin: '100px',

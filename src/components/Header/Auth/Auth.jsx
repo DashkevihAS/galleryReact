@@ -25,7 +25,6 @@ export const Auth = () => {
   useEffect(() => {
     const token = localStorage.getItem('bearer');
     if (code && !token) {
-      console.log(code, token);
       fetch(tokenUrl, {
         method: 'POST',
       })
@@ -50,7 +49,6 @@ export const Auth = () => {
     dispatch(authLogout());
     navigate('/');
   };
-  console.log(loading);
   return (
     <div className={style.authWrapper}>
       {loading ? (

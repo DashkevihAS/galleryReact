@@ -1,13 +1,10 @@
 {
-    "env": {
+  "env": {
     "browser": true,
     "es6": true,
     "node": true
   },
-  "extends": [
-    "eslint:recommended", 
-    "plugin:react/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "parser": "babel-eslint",
     "ecmaVersion": "latest",
@@ -166,7 +163,11 @@
         "const": "never"
       }
     ],
-    "operator-linebreak": ["error", "after"],
+    "operator-linebreak": [
+      "error",
+      "after",
+      { "overrides": { "?": "before", ":": "before" } }
+    ],
     "padded-blocks": ["error", "never"],
     "quote-props": ["error", "consistent"],
     "quotes": [
