@@ -1,18 +1,11 @@
 import React from 'react';
 import style from './Layout.module.css';
-import PropTypes from 'prop-types';
+import { Header } from '../Header/Header';
+import { Outlet } from 'react-router';
 
-
-export const Layout = ({ children }) => (
-  <div className={style.container} >
-    {children}
+export const Layout = () => (
+  <div className={style.container}>
+    <Header />
+    <Outlet />
   </div>
 );
-
-Layout.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.array,
-  ])
-};

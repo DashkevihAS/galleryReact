@@ -3,13 +3,14 @@ import axios from 'axios';
 
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
-  async (token) => {
+  (token, { rejectWithValue }) => {
     if (!token) return;
-    const { data } = await axios(`https://api.unsplash.com/me`, {
+    return axios(`https://api.unsplash.com/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
-    return data;
+    })
+      .then(({ data }) => data)
+      .catch((err) => rejectWithValue(err));
   },
 );

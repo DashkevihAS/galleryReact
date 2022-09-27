@@ -5,7 +5,7 @@ import { setStatus } from './photosSlice';
 
 export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
-  async (token, { getState, dispatch }) => {
+  (token, { getState, dispatch, rejectWithValue }) => {
     const page = getState().photos.page;
     const status = getState().photos.status;
     if (status === 'loading' || page > 1) return;
@@ -15,7 +15,7 @@ export const fetchPhotos = createAsyncThunk(
         `https://api.unsplash.com/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&order_by=popular`,
       )
         .then(({ data }) => data)
-        .catch((err) => err);
+        .catch((err) => rejectWithValue(err));
     } else {
       return axios(
         `https://api.unsplash.com/photos?page=${page}&per_page=30&order_by=popular`,
@@ -26,14 +26,14 @@ export const fetchPhotos = createAsyncThunk(
         },
       )
         .then(({ data }) => data)
-        .catch((err) => err);
+        .catch((err) => rejectWithValue(err));
     }
   },
 );
 
 export const fetchPhotosByScroll = createAsyncThunk(
   'photos/fetchPhotosByScroll',
-  (_, { getState }) => {
+  (_, { getState, rejectWithValue }) => {
     const token = localStorage.getItem('bearer');
     const page = getState().photos.page;
 
@@ -42,7 +42,7 @@ export const fetchPhotosByScroll = createAsyncThunk(
         `https://api.unsplash.com/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&order_by=popular`,
       )
         .then(({ data }) => data)
-        .catch((err) => err);
+        .catch((err) => rejectWithValue(err));
     } else {
       return axios(
         `https://api.unsplash.com/photos?page=${page}&per_page=30&order_by=popular`,

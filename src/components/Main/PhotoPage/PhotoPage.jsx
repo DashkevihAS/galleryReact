@@ -6,6 +6,7 @@ import { Like } from './Like/Like';
 import style from './Photo.module.css';
 import Spinner from '../../../UI/Spinner/Spinner';
 import { fetchPhoto } from '../../../store/photoPage/photoPageAction';
+import { Error } from '../Error/Error';
 
 export const Photo = () => {
   const { id } = useParams();
@@ -16,11 +17,12 @@ export const Photo = () => {
   useEffect(() => {
     dispatch(fetchPhoto(id));
   }, [id]);
-
   return (
     <div className={style.photoPage}>
       {status === 'loading' ? (
         <Spinner />
+      ) : status === 'error' ? (
+        <Error />
       ) : (
         !Array.isArray(photo) && (
           <>
