@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchPhotos, fetchPhotosByScroll } from './photosAction';
 
 const initialState = {
   photos: [],
@@ -12,43 +13,52 @@ export const photosSlice = createSlice({
   name: 'photos',
   initialState,
   reducers: {
-    photosRequest: (state) => {
-      state.error = '';
-      state.status = 'loading';
-      state.page = 1;
-      state.photos = [];
-    },
-    photosRequestSuccess: (state, action) => {
-      state.photos = action.payload;
-      state.error = '';
-      state.status = 'loaded';
-      state.page = 2;
-    },
-    photosRequestError: (state, action) => {
-      state.error = action.payload;
-      state.status = 'error';
-    },
-    photosScrollRequest: (state) => {
-      state.error = '';
-    },
-    photosScrollRequestSuccess: (state, action) => {
-      state.photos = [...state.photos, ...action.payload];
-      state.error = '';
-      state.page += 1;
-    },
-    photosScrollRequestError: (state, action) => {
-      state.error = action.payload;
-    },
     photosUpdate: (state) => {
       state.photos = [];
       state.page = 1;
+    },
+    setStatus: (state) => {
+      state.status = 'loading';
     },
     tokenUpdate: (state, action) => {
       state.token = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchPhotos.pending, (state) => {
+      state.error = '';
+      state.page = 1;
+      state.photos = [];
+    });
+
+    builder.addCase(fetchPhotos.fulfilled, (state, action) => {
+      state.photos = action.payload;
+      state.error = '';
+      state.status = 'loaded';
+      state.page = 2;
+    });
+
+    builder.addCase(fetchPhotos.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = 'error';
+    });
+
+    builder.addCase(fetchPhotosByScroll.pending, (state) => {
+      state.error = '';
+    });
+
+    builder.addCase(fetchPhotosByScroll.fulfilled, (state, action) => {
+      state.photos = [...state.photos, ...action.payload];
+      state.error = '';
+      state.page += 1;
+    });
+
+    builder.addCase(fetchPhotosByScroll.rejected, (state, action) => {
+      state.error = action.payload;
+    });
+  },
 });
 
-export const { photosUpdate, tokenUpdate } = photosSlice.actions;
+export const { photosUpdate, tokenUpdate, setStatus } = photosSlice.actions;
 
 export default photosSlice.reducer;
