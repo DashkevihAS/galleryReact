@@ -11,6 +11,7 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Main />} />
           <Route path='/search' element={<Main />} />
+          <Route path='/likes' element={<Main />} />
           <Route path='/:id' element={<Photo />} />
           <Route path='*' element={<Error />} />
         </Route>

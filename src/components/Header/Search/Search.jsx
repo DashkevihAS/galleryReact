@@ -1,29 +1,34 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { fetchPhotos } from '../../../store/photos/photosAction';
-import { setSearch } from '../../../store/photos/photosSlice';
+import { setFetchType, setSearch } from '../../../store/photos/photosSlice';
 import style from './Search.module.css';
 
 export const Search = (props) => {
   const dispatch = useDispatch();
   const search = useSelector((state) => state.photos.search);
   const navigate = useNavigate();
-  const token = localStorage.getItem('bearer');
+  const inputRef = useRef(null);
 
   const handlerSubmit = (e) => {
     e.preventDefault();
+
     navigate(`/search`);
-    dispatch(fetchPhotos(token));
+    dispatch(setFetchType('search'));
+    dispatch(fetchPhotos());
+    inputRef.current.value = '';
   };
   return (
     <form className={style.form} onSubmit={handlerSubmit}>
       <input
+        ref={inputRef}
         className={style.search}
         type='search'
         onChange={(e) => dispatch(setSearch(e.target.value))}
         value={search}
       />
-      <button className={style.button} type='submit'>
+      <button className={style.button} type='submit' disabled={!search}>
         <svg
           className={style.svg}
           width='128'
@@ -44,7 +49,6 @@ export const Search = (props) => {
               113.025 126.25 110.675ZM52 84C34.325 84 20 69.7
               20 52C20 34.325 34.3 20 52 20C69.675 20 84 34.3
               84 52C84 69.675 69.7 84 52 84Z'
-              fill='black'
             />
           </g>
         </svg>

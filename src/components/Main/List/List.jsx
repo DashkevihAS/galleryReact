@@ -13,14 +13,12 @@ export const List = () => {
   const photosData = useSelector((state) => state.photos.photos);
   const dispatch = useDispatch();
   const status = useSelector((state) => state.photos.status);
-  const token = localStorage.getItem('bearer');
   const code = new URLSearchParams(location.search).get('code');
   const isMounted = useRef(false);
-  isMounted.current = false;
 
   useEffect(() => {
-    !code && dispatch(fetchPhotos(token));
-  }, [token]);
+    !code && dispatch(fetchPhotos());
+  }, []);
 
   useEffect(() => {
     if (!photosData) return;

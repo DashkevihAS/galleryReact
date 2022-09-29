@@ -1,0 +1,42 @@
+.button {
+  display: block;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 25px;
+  border: none;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.button span {
+  font-size: 16px;
+  color: black;
+  margin-right: 5px;
+  transition: color 0.3s;
+}
+.button:hover span {
+  color: red;
+}
+.button:active {
+  transform: translate(1px, 1px);
+}
+
+.heart {
+  height: 14px;
+}
+
+@media (min-width: 768px) {
+  .button {
+    padding: 0 20px;
+    height: 40px;
+  }
+  .button span {
+    font-size: 20px;
+    color: black;
+    margin-right: 10px;
+  }
+  .heart {
+    height: 20px;
+  }
+}

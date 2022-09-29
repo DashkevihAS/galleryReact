@@ -1,17 +1,19 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSearch } from '../../../store/photos/photosSlice';
+import { fetchPhotos } from '../../../store/photos/photosAction';
+import { setFetchType, setSearch } from '../../../store/photos/photosSlice';
 import style from './Logo.module.css';
 
 export const Logo = () => {
   const dispatch = useDispatch();
+  const handleClickHome = () => {
+    dispatch(setSearch(''));
+    dispatch(setFetchType('default'));
+    dispatch(fetchPhotos());
+  };
   return (
-    <Link
-      className={style.logo}
-      to={`/`}
-      onClick={() => dispatch(setSearch(''))}
-    >
+    <Link className={style.logo} to={`/`} onClick={handleClickHome}>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         enableBackground='new 0 0 24 24'

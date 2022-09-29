@@ -8,6 +8,7 @@ const initialState = {
   page: 1,
   token: '',
   search: '',
+  fetchType: 'default',
 };
 
 export const photosSlice = createSlice({
@@ -27,6 +28,9 @@ export const photosSlice = createSlice({
     setSearch: (state, action) => {
       state.search = action.payload;
       state.page = 1;
+    },
+    setFetchType: (state, action) => {
+      state.fetchType = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -53,7 +57,9 @@ export const photosSlice = createSlice({
     });
 
     builder.addCase(fetchPhotosByScroll.fulfilled, (state, action) => {
-      state.photos = [...state.photos, ...action.payload];
+      if (action.payload) {
+        state.photos = [...state.photos, ...action.payload];
+      }
       state.error = '';
       state.page += 1;
     });
@@ -64,7 +70,7 @@ export const photosSlice = createSlice({
   },
 });
 
-export const { photosUpdate, tokenUpdate, setStatus, setSearch } =
+export const { photosUpdate, tokenUpdate, setStatus, setSearch, setFetchType } =
   photosSlice.actions;
 
 export default photosSlice.reducer;

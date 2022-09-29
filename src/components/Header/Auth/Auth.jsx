@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router';
 
 import { urlAuth } from '../../../api/auth';
 import { delToken, getTokenUrl, setToken } from '../../../api/token';
-import { photosUpdate, tokenUpdate } from '../../../store/photos/photosSlice';
+import {
+  photosUpdate,
+  setFetchType,
+  tokenUpdate,
+} from '../../../store/photos/photosSlice';
 import { fetchAuthData } from '../../../store/auth/authAction';
 import { fetchPhotos } from '../../../store/photos/photosAction';
 import { authLogout } from '../../../store/auth/authSlice';
@@ -32,12 +36,13 @@ export const Auth = () => {
         .then((data) => {
           setToken(data.access_token);
           dispatch(tokenUpdate(data.access_token));
-          dispatch(fetchPhotos(data.access_token));
+          dispatch(fetchPhotos());
           dispatch(fetchAuthData(data.access_token));
           navigate('/');
         });
     } else if (token) {
-      dispatch(fetchPhotos(token));
+      dispatch(setFetchType('default'));
+      dispatch(fetchPhotos());
       dispatch(fetchAuthData(token));
     }
   }, []);
