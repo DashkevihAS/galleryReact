@@ -4,7 +4,7 @@
   padding: 0 10px;
   border-radius: 25px;
   border: none;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.3s;
   flex-shrink: 0;
@@ -17,6 +17,9 @@
 }
 .button:hover span {
   color: red;
+}
+.button:hover {
+  box-shadow: 4px 4px 5px rgba(247, 244, 244, 0.5);
 }
 .button:active {
   transform: translate(1px, 1px);

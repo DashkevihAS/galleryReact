@@ -14,7 +14,7 @@ export const Search = (props) => {
   const handlerSubmit = (e) => {
     e.preventDefault();
 
-    navigate(`/search`);
+    navigate(`/search/${search}`);
     dispatch(setFetchType('search'));
     dispatch(fetchPhotos());
     inputRef.current.value = '';

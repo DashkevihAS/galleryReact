@@ -49,8 +49,9 @@ export const Auth = () => {
 
   const logOut = () => {
     delToken();
-    dispatch(photosUpdate());
     dispatch(tokenUpdate(''));
+    dispatch(setFetchType('default'));
+    dispatch(photosUpdate());
     dispatch(authLogout());
     navigate('/');
   };
@@ -69,7 +70,7 @@ export const Auth = () => {
           </div>
           <div className={style.logOut}>
             <span>{authData.username}</span>
-            <LogOut onClick={logOut} />
+            <LogOut className={style.exit} onClick={logOut} />
           </div>
         </div>
       ) : (

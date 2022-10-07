@@ -52,3 +52,11 @@
   cursor: pointer;
   height: 20px;
 }
+
+.exit {
+  transition: all 0.3s ease-in-out;
+}
+.exit:hover {
+  transform: scale(1.5);
+  color: #fff;
+}

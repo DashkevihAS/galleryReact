@@ -10,36 +10,34 @@ export const PhotoCart = ({ photo }) => {
   const dispatch = useDispatch();
   return (
     <>
-      {photo.urls.thumb ?
+      {photo.urls.thumb ? (
         <li className={style.photoCart}>
           <Link
             onClick={() => dispatch(getLikeCount(photo.likes))}
             className={style.linkPost}
-            to={`/${photo.id}`}></Link>
+            to={`/${photo.id}`}
+          ></Link>
           <img
             src={photo.urls.thumb}
             alt={photo.alt_description}
-            width={200} height={300} />
-          <a
-            className={style.author}
-            href={photo.user.links.html}>{photo.user.name}
+            width={200}
+            height={300}
+          />
+          <a className={style.author} href={photo.user.links.html}>
+            {photo.user.name}
           </a>
-          <time
-            className={style.date}
-            dateTime={photo.created_at}
-          >
+          <time className={style.date} dateTime={photo.created_at}>
             {photo.created_at.substring(0, 10)}
           </time>
           <div className={style.like}>
-            <img className={style.heart} src={heart} alt="" />
+            <img className={style.heart} src={heart} alt='' />
             <span>{photo.likes}</span>
           </div>
-        </li> : null
-      }
+        </li>
+      ) : null}
     </>
   );
 };
-
 
 PhotoCart.propTypes = {
   photo: PropTypes.object,

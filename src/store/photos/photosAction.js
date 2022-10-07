@@ -36,7 +36,7 @@ export const fetchPhotos = createAsyncThunk(
           ? `https://api.unsplash.com/search/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&query=${search}`
           : type === 'likes'
           ? `https://api.unsplash.com/users/${username}/likes?page=${page}&per_page=30`
-          : `https://api.unsplash.com/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&order_by=popular`,
+          : `https://api.unsplash.com/photos?&page=${page}&per_page=30&order_by=popular`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ export const fetchPhotosByScroll = createAsyncThunk(
           ? `https://api.unsplash.com/search/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&query=${search}`
           : type === 'likes'
           ? `https://api.unsplash.com/users/${username}/likes?page=${page}&per_page=30`
-          : `https://api.unsplash.com/photos?client_id=${ACCESS_KEY}&page=${page}&per_page=30&order_by=popular`,
+          : `https://api.unsplash.com/photos?&page=${page}&per_page=30&order_by=popular`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
