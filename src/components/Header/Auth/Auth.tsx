@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { urlAuth } from '../../../api/auth';
@@ -14,21 +14,28 @@ import { fetchPhotos } from '../../../store/photos/photosAction';
 import { authLogout } from '../../../store/auth/authSlice';
 
 import Spinner from '../../../UI/Spinner/Spinner';
+//@ts-ignore
 import { ReactComponent as LogOut } from '../../../UI/log_out_icon_128821.svg';
 
 import style from './Auth.module.css';
+import { useAppDispatch } from '../../../store';
 
 export const Auth = () => {
+  //@ts-ignore
+
   const authData = useSelector((state) => state.auth.data);
+  // eslint-disable-next-line no-restricted-globals
   const code = new URLSearchParams(location.search).get('code');
-  const tokenUrl = getTokenUrl(code);
+  //@ts-ignore
+
   const loading = useSelector((state) => state.auth.loading);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem('bearer');
     if (code && !token) {
+      const tokenUrl = getTokenUrl(code);
       fetch(tokenUrl, {
         method: 'POST',
       })
@@ -37,13 +44,13 @@ export const Auth = () => {
           setToken(data.access_token);
           dispatch(tokenUpdate(data.access_token));
           dispatch(fetchPhotos());
-          dispatch(fetchAuthData(data.access_token));
+          dispatch(fetchAuthData());
           navigate('/');
         });
     } else if (token) {
       dispatch(setFetchType('default'));
       dispatch(fetchPhotos());
-      dispatch(fetchAuthData(token));
+      dispatch(fetchAuthData());
     }
   }, []);
 

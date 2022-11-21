@@ -1,18 +1,24 @@
 import style from './List.module.css';
 import { PhotoCart } from './PhotoCart/PhotoCart';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   fetchPhotos,
   fetchPhotosByScroll,
 } from '../../../store/photos/photosAction';
 import Spinner from '../../../UI/Spinner/Spinner';
+import { useAppDispatch } from '../../../store';
 
-export const List = () => {
-  const endList = useRef(null);
+export const List: React.FC = () => {
+  const endList = useRef<HTMLLIElement>(null);
+  //@ts-ignore
+
   const photosData = useSelector((state) => state.photos.photos);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  //@ts-ignore
+
   const status = useSelector((state) => state.photos.status);
+  // eslint-disable-next-line no-restricted-globals
   const code = new URLSearchParams(location.search).get('code');
   const isMounted = useRef(false);
 
@@ -34,7 +40,7 @@ export const List = () => {
       },
     );
 
-    observer.observe(endList.current);
+    endList.current && observer.observe(endList.current);
 
     return () => {
       if (endList.current) {
@@ -49,11 +55,17 @@ export const List = () => {
       {photosData &&
         photosData
           .reduce(
+            //@ts-ignore
+
             (arr, el) => (
+              //@ts-ignore
+
               arr.find(({ id }) => el.id === id) || arr.push(el), arr
             ),
             [],
           )
+          //@ts-ignore
+
           .map((photo) => <PhotoCart key={photo.id} photo={photo} />)}
       <li className={style.end} ref={endList} />
     </ul>

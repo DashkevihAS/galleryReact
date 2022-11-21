@@ -1,12 +1,25 @@
 import React from 'react';
 import style from './PhotoCart.module.css';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import heart from '../../../../UI/heart_PNG51258.png';
 import { getLikeCount } from '../../../../store/photoPage/photoPageSlice';
 import { useDispatch } from 'react-redux';
 
-export const PhotoCart = ({ photo }) => {
+type PhotoCartProps = {
+  photo: {
+    likes: 'number';
+    id: 'number';
+    alt_description: 'string';
+    created_at: 'number';
+    urls: { thumb: 'string' };
+    user: {
+      name: 'string';
+      links: { html: 'string' };
+    };
+  };
+};
+
+export const PhotoCart: React.FC<PhotoCartProps> = ({ photo }) => {
   const dispatch = useDispatch();
   return (
     <>
@@ -37,8 +50,4 @@ export const PhotoCart = ({ photo }) => {
       ) : null}
     </>
   );
-};
-
-PhotoCart.propTypes = {
-  photo: PropTypes.object,
 };

@@ -6,7 +6,7 @@ import {
   GRANT_TYPE,
 } from './const';
 
-export const getTokenUrl = (code) => {
+export const getTokenUrl = (code: string) => {
   const url = new URL(API_URL_TOKEN);
 
   url.searchParams.append('client_id', ACCESS_KEY);
@@ -18,10 +18,9 @@ export const getTokenUrl = (code) => {
   return `${API_URL_TOKEN}${url.searchParams.toString()}`;
 };
 
-export const setToken = (token) => {
+export const setToken = (token: string) => {
   localStorage.setItem('bearer', token);
 };
 export const delToken = () => {
   setToken('');
 };
-

@@ -1,13 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../../store';
 import { fetchPhotos } from '../../../store/photos/photosAction';
 import { setFetchType, setSearch } from '../../../store/photos/photosSlice';
 import style from './Logo.module.css';
 
-export const Logo = () => {
-  const dispatch = useDispatch();
-  const handleClickHome = () => {
+export const Logo: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const handleClickHome = (): void => {
     dispatch(setSearch(''));
     dispatch(setFetchType('default'));
     dispatch(fetchPhotos());

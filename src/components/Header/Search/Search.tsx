@@ -1,23 +1,27 @@
 import { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useAppDispatch } from '../../../store';
 import { fetchPhotos } from '../../../store/photos/photosAction';
 import { setFetchType, setSearch } from '../../../store/photos/photosSlice';
 import style from './Search.module.css';
 
-export const Search = (props) => {
-  const dispatch = useDispatch();
-  const search = useSelector((state) => state.photos.search);
-  const navigate = useNavigate();
-  const inputRef = useRef(null);
+type Fix = any;
 
-  const handlerSubmit = (e) => {
+export const Search = () => {
+  const dispatch = useAppDispatch();
+  const search = useSelector((state: Fix) => state.photos.search);
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     navigate(`/search/${search}`);
     dispatch(setFetchType('search'));
     dispatch(fetchPhotos());
-    inputRef.current.value = '';
+
+    inputRef.current?.focus();
   };
   return (
     <form className={style.form} onSubmit={handlerSubmit}>

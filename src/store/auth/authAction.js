@@ -3,7 +3,9 @@ import axios from 'axios';
 
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
-  (token, { rejectWithValue }) => {
+  (_, { rejectWithValue }) => {
+    const token = localStorage.getItem('bearer');
+
     if (!token) return;
     return axios(`https://api.unsplash.com/me`, {
       headers: {

@@ -9,14 +9,20 @@ import { fetchPhoto } from '../../../store/photoPage/photoPageAction';
 import { Error } from '../Error/Error';
 
 export const Photo = () => {
-  const { id } = useParams();
+  const { id } = useParams<string>();
   const dispatch = useDispatch();
+  //@ts-ignore
+
   const photo = useSelector((state) => state.photo.photo);
+  //@ts-ignore
+
   const status = useSelector((state) => state.photo.status);
 
   useEffect(() => {
+    //@ts-ignore
+
     dispatch(fetchPhoto(id));
-  }, [id]);
+  }, [id, dispatch]);
   return (
     <div className={style.photoPage}>
       {status === 'loading' ? (
@@ -38,7 +44,7 @@ export const Photo = () => {
               <time className={style.date} dateTime={photo.created_at}>
                 {photo.created_at.substring(0, 10)}
               </time>
-              <Like id={id} photo={photo} />
+              <Like />
             </div>
             <Link className={style.back} to='/'>
               На главную
